@@ -6,11 +6,11 @@ namespace TrainTicketMachine.StationSearch
 {
     public class MatchingStationsSelector
     {
-        public List<Station> FullStationsList { get; }
+        public List<Station> CompleteStationsList { get; }
 
-        public MatchingStationsSelector(List<Station> fullStationsList)
+        public MatchingStationsSelector(List<Station> completeStationsList)
         {
-            FullStationsList = fullStationsList;
+            CompleteStationsList = completeStationsList;
         }
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace TrainTicketMachine.StationSearch
         /// <returns>List of <see cref="Station"/> instances that represents train stations that begin with the string specified by the user.</returns>
         public List<Station> GetMatchingStations(string firstChars)
         {
-            var matchingStations = FullStationsList.Where(
+            var matchingStations = CompleteStationsList.Where(
                 station => station.StationName.ToLower().StartsWith(firstChars.ToLower()))
                 .Distinct().ToList();
 
