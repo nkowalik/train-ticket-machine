@@ -23,6 +23,10 @@ namespace TrainTicketMachine.SystemResponseReceiver
             _logger = logger;
         }
 
+        /// <summary>
+        /// Tries to write all content received by the central system to a file with the retries on failure.
+        /// </summary>
+        /// <param name="retries">The <see cref="int"/> that represents the maximum number of retries to write response to the file after failure or loss of connection to the system.</param>
         public void WriteSystemResponseToFileWithRetry(int retries)
         {
             if (retries < 1)

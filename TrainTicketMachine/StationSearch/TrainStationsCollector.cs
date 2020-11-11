@@ -19,6 +19,10 @@ namespace TrainTicketMachine.StationSearch
             PathToFileWithSystemResponse = pathToFile;
         }
 
+        /// <summary>
+        /// Reads content from file with saved system response and converts it to the collection of Station objects.
+        /// </summary>
+        /// <returns>List of <see cref="Station"/> instances that represents all train stations that are present in the central system.</returns>
         public List<Station> CollectAllTrainStationsFromSystemResponse()
         {
             try

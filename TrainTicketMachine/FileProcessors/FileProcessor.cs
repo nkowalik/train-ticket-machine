@@ -21,17 +21,17 @@ namespace TrainTicketMachine.FileProcessors
             return true;
         }
 
-        public string ReadFile(string pathToFile)
+        public string ReadFile(string fullPathToFile)
         {
             try
             {
-                using var reader = new StreamReader(pathToFile);
+                using var reader = new StreamReader(fullPathToFile);
                 var fileContent = reader.ReadToEnd();
                 return fileContent;
             }
             catch (FileNotFoundException ex)
             {
-                var message = $"Invalid path to file: {pathToFile}";
+                var message = $"Invalid path to file: {fullPathToFile}";
                 _logger.LogError(message);
                 throw new InvalidPathException(message, ex);
             }
