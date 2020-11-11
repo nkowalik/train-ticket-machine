@@ -34,5 +34,16 @@ namespace TrainTicketMachine.UnitTests.StationSearch
             Assert.NotEmpty(stations);
             Assert.Equal(expectedStationName, stations.First().StationName);
         }
+
+        [Fact]
+        public void CollectAllTrainStationsFromSystemResponseFailedWithInvalidPathToFile()
+        {
+            const string invalidPath = @".\invalid_path";
+
+            var collector = new TrainStationsCollector(_jsonParser, _fileProcessor, invalidPath);
+
+            Assert.Throws<GettingDataFromFileException>(() =>
+                collector.CollectAllTrainStationsFromSystemResponse());
+        }
     }
 }
