@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
 using TrainTicketMachine.FileProcessors;
+using TrainTicketMachine.Utils;
 
 namespace TrainTicketMachine.SystemResponseReceiver
 {
@@ -26,7 +27,7 @@ namespace TrainTicketMachine.SystemResponseReceiver
         /// <summary>
         /// Tries to write all content received by the central system to a file with the retries on failure.
         /// </summary>
-        /// <param name="retries">The <see cref="int"/> that represents the maximum number of retries to write response to the file after failure or loss of connection to the system.</param>
+        /// <param name="retries">An <see cref="int"/> that represents the maximum number of retries to write response to the file after failure or loss of connection to the system.</param>
         public void WriteSystemResponseToFileWithRetry(int retries)
         {
             if (retries < 1)
@@ -37,36 +38,13 @@ namespace TrainTicketMachine.SystemResponseReceiver
             const string errorMessage = "Writing system response to file failed.";
             try
             {
-                WriteSystemResponseToFileWithRetry(WriteSystemResponseToFile, errorMessage, retries);
+                RetryingHandler.ProcessActionWithRetry(WriteSystemResponseToFile, errorMessage, retries);
             }
             catch (Exception ex)
             {
                 _logger.LogError($"{ex.Message}");
-                throw new CentralSystemConnectionException($"{ex.Message}");
+                throw new ProcessingActionException($"{ex.Message}");
             }
-        }
-
-        private static void WriteSystemResponseToFileWithRetry(Action writeToFileAction, string errorMessage, int retries)
-        {
-            Exception lastException = null;
-
-            while (retries > 0)
-            {
-                try
-                {
-                    writeToFileAction.Invoke();
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    retries--;
-                    lastException = ex;
-                }
-            }
-
-            throw lastException == null
-                ? new CentralSystemConnectionException(errorMessage)
-                : new CentralSystemConnectionException(errorMessage, lastException);
         }
 
         private void WriteSystemResponseToFile()
@@ -79,7 +57,7 @@ namespace TrainTicketMachine.SystemResponseReceiver
             {
                 var message = $"Writing system response to file '{PathToFileWithSystemResponse}' failed.";
                 _logger.LogError(message);
-                throw new CentralSystemConnectionException(message, ex);
+                throw new ProcessingActionException(message, ex);
             }
         }
     }

@@ -38,7 +38,7 @@ namespace TrainTicketMachine.UnitTests.SystemResponseReceiver
 
             var systemResponseSaver = new SystemResponseSaver(_fileProcessor, string.Empty, string.Empty, _logger);
 
-            Assert.Throws<CentralSystemConnectionException>(() =>
+            Assert.Throws<ProcessingActionException>(() =>
                 systemResponseSaver.WriteSystemResponseToFileWithRetry(3));
         }
 
