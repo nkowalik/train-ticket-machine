@@ -7,8 +7,6 @@ RUN dotnet restore
 COPY . ./
 RUN dotnet publish -c Release -o out
 
-#ENTRYPOINT ["dotnet", "run", "-c", "Release", "--no-build"]
-
 FROM mcr.microsoft.com/dotnet/sdk:3.1
 WORKDIR /app
 COPY --from=build-env /app/out .

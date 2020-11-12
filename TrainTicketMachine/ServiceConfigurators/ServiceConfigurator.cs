@@ -24,6 +24,7 @@ namespace TrainTicketMachine.ServiceConfigurators
             var configuration = configurationBuilder.Build();
             var logger = CreateInternalLogger(configuration);
 
+            services.AddSingleton<TrainTicketMachineProcessor>();
             ConfigureLogging(services, configuration, logger);
             ConfigureAppSettings(services, configuration, logger);
             ConfigureProcessorsDependencies(services, logger);

@@ -4,5 +4,6 @@
     {
         public char InitialCharacter { get; set; }
         public char ClosingApp { get; set; }
+        public char DeleteCharacter { get; set; }
     }
 }
