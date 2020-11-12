@@ -29,11 +29,11 @@ namespace TrainTicketMachine.FileProcessors
                 var fileContent = reader.ReadToEnd();
                 return fileContent;
             }
-            catch (FileNotFoundException ex)
+            catch (FileNotFoundException)
             {
                 var message = $"Invalid path to file: {fullPathToFile}";
                 _logger.LogError(message);
-                throw new InvalidPathException(message, ex);
+                throw;
             }
         }
     }

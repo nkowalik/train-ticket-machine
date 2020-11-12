@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using TrainTicketMachine.Models;
 using TrainTicketMachine.ServiceConfigurators;
 using TrainTicketMachine.StationSearch;
@@ -14,7 +15,7 @@ namespace TrainTicketMachine
         private static void Main()
         {
             var services = ServiceConfigurator.ConfigureServices();
-            IServiceProvider serviceProvider = services.BuildServiceProvider();
+            var serviceProvider = services.BuildServiceProvider();
 
             GetResponseFromCentralSystem(serviceProvider);
 
@@ -24,7 +25,15 @@ namespace TrainTicketMachine
         private static void GetResponseFromCentralSystem(IServiceProvider serviceProvider)
         {
             var responseSaver = serviceProvider.GetService<SystemResponseSaver>();
-            responseSaver.WriteSystemResponseToFileWithRetry(Retries.MaxRetriesNumber);
+            var logger = serviceProvider.GetService<ILogger<Program>>();
+            try
+            {
+                responseSaver.WriteSystemResponseToFileWithRetry(Retries.MaxRetriesNumber);
+            }
+            catch (CentralSystemConnectionException)
+            {
+                logger.LogError($"Connection with central system failed after {Retries.MaxRetriesNumber} retries.");
+            }
         }
 
         private static void RunSearchEngine(IServiceProvider serviceProvider)

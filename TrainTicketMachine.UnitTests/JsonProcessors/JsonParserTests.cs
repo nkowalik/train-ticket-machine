@@ -36,9 +36,8 @@ namespace TrainTicketMachine.UnitTests.JsonProcessors
 
             var processor = new JsonParser(_logger);
 
-            var ex = Assert.Throws<InvalidJsonFileContentException>(() =>
+            Assert.Throws<JsonSerializationException>(() =>
                 processor.ParseJsonContent<Station>(invalidJsonFileContent));
-            Assert.IsType<JsonSerializationException>(ex.InnerException);
         }
     }
 }

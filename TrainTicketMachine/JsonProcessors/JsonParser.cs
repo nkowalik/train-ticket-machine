@@ -21,11 +21,11 @@ namespace TrainTicketMachine.JsonProcessors
                 var items = JsonConvert.DeserializeObject<List<T>>(jsonFileContent);
                 return items;
             }
-            catch (Exception ex)
+            catch (JsonSerializationException)
             {
                 var message = $"Json file content is invalid:\n{jsonFileContent}";
                 _logger.LogError(message);
-                throw new InvalidJsonFileContentException(message, ex);
+                throw;
             }
         }
     }

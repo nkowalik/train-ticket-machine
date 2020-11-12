@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using TrainTicketMachine.FileProcessors;
@@ -42,7 +43,7 @@ namespace TrainTicketMachine.UnitTests.StationSearch
 
             var collector = new TrainStationsCollector(_jsonParser, _fileProcessor, invalidPath);
 
-            Assert.Throws<GettingDataFromFileException>(() =>
+            Assert.Throws<FileLoadException>(() =>
                 collector.CollectAllTrainStationsFromSystemResponse());
         }
     }

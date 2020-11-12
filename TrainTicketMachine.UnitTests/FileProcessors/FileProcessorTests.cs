@@ -34,8 +34,7 @@ namespace TrainTicketMachine.UnitTests.FileProcessors
 
             var processor = new FileProcessor(_logger);
 
-            var ex = Assert.Throws<InvalidPathException>(() => processor.ReadFile(invalidPathToFile));
-            Assert.IsType<FileNotFoundException> (ex.InnerException);
+            Assert.Throws<FileNotFoundException>(() => processor.ReadFile(invalidPathToFile));
         }
     }
 }

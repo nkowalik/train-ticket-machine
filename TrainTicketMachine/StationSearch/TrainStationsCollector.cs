@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using TrainTicketMachine.FileProcessors;
 using TrainTicketMachine.JsonProcessors;
 using TrainTicketMachine.Models;
@@ -33,7 +34,7 @@ namespace TrainTicketMachine.StationSearch
             catch (Exception ex)
             {
                 var message = $"Collecting central system data from file '{PathToFileWithSystemResponse}' failed.";
-                throw new GettingDataFromFileException(message, ex);
+                throw new FileLoadException(message, ex);
             }
         }
 
