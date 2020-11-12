@@ -90,6 +90,8 @@ namespace TrainTicketMachine
         {
             Console.WriteLine("Train Ticket Machine");
             Console.WriteLine($"Type '{closingChar}' to cancel the search and close the window.");
+            Console.WriteLine("Press enter to start typing the station name from the beginning.");
+            Console.WriteLine("Press backspace to delete the last entered character.");
             Console.WriteLine("Type station name:");
         }
 
